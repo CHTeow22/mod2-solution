@@ -18,7 +18,7 @@
     };
     buyList.showBuyMsg = ShoppingListCheckOffService.buyMsg();
 
-    console.log(buyList.showBuyMsg);
+    console.log(ShoppingListCheckOffService.buyMsg());
   }
 
   AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
@@ -26,11 +26,12 @@
     var boughtList = this;
     boughtList.bought = ShoppingListCheckOffService.getBoughtItem();
 
-    // if(boughtList.bought.length == 0) {
-    //   boughtList.showBoughtMsg = "Nothing bought yet.";
-    //
-    // }
+    if(boughtList.bought.length == 0) {
+      boughtList.showBoughtMsg = "true";
+
+    }
     boughtList.showBoughtMsg = ShoppingListCheckOffService.boughtMsg();
+    console.log(boughtList.bought.length);
     console.log(boughtList.showBoughtMsg);
   }
 
@@ -77,23 +78,16 @@
       toBuyItem.splice(itemIndex, 1);
       boughtItem.push(boughtThing);
 
-      // var count = toBuyItem.length;
-      // service.showBuyMsg(count);
       console.log(toBuyItem.length);
       console.log(boughtItem.length);
       if(toBuyItem.length == 0) {
         buyMsg = true;
         // console.log("true");
-        // service.buyMsg = function() {
-        //   return true;
-        // }
+        // service.buyMsg = true;
 
-        // console.log(service.showBuyMsg );
       } else {
         buyMsg = false;
-        // service.buyMsg = function() {
-        //   return false;
-        // }
+        // service.buyMsg = false;
 
         // console.log("false");
       }
@@ -101,11 +95,18 @@
       if(boughtItem.length == 0) {
         // console.log("true");
         boughtMsg = true;
+
+        // service.boughtMsg = true;
       } else {
         boughtMsg = false;
+        // service.boughtMsg = false;
       }
+
+      service.boughtMsg = false;
+      // return buyMsg, boughtMsg;
     }
 
+    // service.boughtMsg = false;
     service.buyMsg = function () {
       return buyMsg;
       // if((toBuyItem.length == 0) || (msg == true)) {
@@ -115,7 +116,7 @@
       //   console.log("false buy");
       // }
     }
-
+    //
     service.boughtMsg = function () {
       return boughtMsg;
       // if((boughtItem.length == 0) || (msg == true)) {
