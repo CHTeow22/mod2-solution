@@ -1,24 +1,6 @@
 (function () {
   'use strict';
 
-  var itemList = [
-    {
-      name: "Milk",
-      quantity: "2"
-    },
-    {
-      name: "Donuts",
-      quantity: "200"
-    },
-    {
-      name: "Cookies",
-      quantity: "300"
-    },
-    {
-      name: "Chocolate",
-      quantity: "5"
-    }
-  ];
 
   angular.module('ShoppingListCheckOff', [])
   .controller('ToBuyController', ToBuyController)
@@ -28,57 +10,120 @@
   ToBuyController.$inject = ['ShoppingListCheckOffService'];
   function ToBuyController(ShoppingListCheckOffService) {
     var buyList = this;
-    buyList.itemList = ShoppingListCheckOffService.toBuyItem;
+    buyList.itemList = ShoppingListCheckOffService.getBuyList();
 
-    buyList.bought = function (itemIndex) {
-      // ShoppingListCheckOffService.getItem(itemIndex);
-      ShoppingListCheckOffService.buyToBoughtItem(itemIndex);
+    buyList.removeItem = function (itemIndex) {
+
+      ShoppingListCheckOffService.removeItem(itemIndex);
     };
-    // console.log(itemIndex);
+    buyList.showBuyMsg = ShoppingListCheckOffService.buyMsg();
 
-    buyList.nothingToBuy = function() {
-      if (ShoppingListCheckOffService.toBuyItem.length != 0) {
-
-      } else {
-        return "Everything is bought!";
-      }
-    }
-
-
+    console.log(buyList.showBuyMsg);
   }
 
   AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
   function AlreadyBoughtController(ShoppingListCheckOffService) {
     var boughtList = this;
-    boughtList.boughtList = ShoppingListCheckOffService.boughtItem;
+    boughtList.bought = ShoppingListCheckOffService.getBoughtItem();
 
-    boughtList.nothingBought = function () {
-      if(ShoppingListCheckOffService.boughtItem.length != 0) {
-        // show the div in html using ng-if
-      } else {
-        return "Nothing bought yet.";
-      }
-    }
+    // if(boughtList.bought.length == 0) {
+    //   boughtList.showBoughtMsg = "Nothing bought yet.";
+    //
+    // }
+    boughtList.showBoughtMsg = ShoppingListCheckOffService.boughtMsg();
+    console.log(boughtList.showBoughtMsg);
   }
 
   function ShoppingListCheckOffService() {
     var service = this;
+
+    var itemList = [
+      {
+        name: "Milk",
+        quantity: "2"
+      },
+      {
+        name: "Donuts",
+        quantity: "200"
+      },
+      {
+        name: "Cookies",
+        quantity: "300"
+      },
+      {
+        name: "Chocolate",
+        quantity: "5"
+      }
+    ];
+
+
     var toBuyItem = itemList;
     var boughtItem = [];
+    var buyMsg = false;
+    var boughtMsg = true;
 
-    service.boughtItem = boughtItem;
-    service.toBuyItem = itemList;
-
-    service.buyToBoughtItem = function (itemIndex) {
-      toBuyItem.splice(itemIndex, 1);
-      // boughtItem.push();
+    service.getBuyList = function () {
+      return toBuyItem;
     }
 
-    service.getItem = function (itemIndex) {
+    service.getBoughtItem = function () {
+      return boughtItem;
+    }
+
+
+    service.removeItem = function (itemIndex) {
+
       var boughtThing = toBuyItem[itemIndex];
+      toBuyItem.splice(itemIndex, 1);
       boughtItem.push(boughtThing);
+
+      // var count = toBuyItem.length;
+      // service.showBuyMsg(count);
+      console.log(toBuyItem.length);
+      console.log(boughtItem.length);
+      if(toBuyItem.length == 0) {
+        buyMsg = true;
+        // console.log("true");
+        // service.buyMsg = function() {
+        //   return true;
+        // }
+
+        // console.log(service.showBuyMsg );
+      } else {
+        buyMsg = false;
+        // service.buyMsg = function() {
+        //   return false;
+        // }
+
+        // console.log("false");
+      }
+
+      if(boughtItem.length == 0) {
+        // console.log("true");
+        boughtMsg = true;
+      } else {
+        boughtMsg = false;
+      }
     }
-    console.log(service.boughtItem);
+
+    service.buyMsg = function () {
+      return buyMsg;
+      // if((toBuyItem.length == 0) || (msg == true)) {
+      //   return true;
+      // } else {
+      //   return false;
+      //   console.log("false buy");
+      // }
+    }
+
+    service.boughtMsg = function () {
+      return boughtMsg;
+      // if((boughtItem.length == 0) || (msg == true)) {
+      //   return true;
+      // } else {
+      //   return false;
+      // }
+    }
   }
 
 
