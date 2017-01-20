@@ -53,6 +53,14 @@
         quantity: "300"
       },
       {
+        name: "Coffee",
+        quantity: "10"
+      },
+      {
+        name: "Sweet",
+        quantity: "50"
+      },
+      {
         name: "Chocolate",
         quantity: "5"
       }
