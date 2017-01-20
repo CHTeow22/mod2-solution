@@ -52,7 +52,7 @@
           <li ng-repeat="item in boughtList.bought">Bought {{item.quantity}} {{item.name}}</li>
           <!-- <li>Bought 10 cookies</li> -->
         </ul>
-        <div class="emptyMessage" ng-if="boughtList.showBoughtMsg"> Nothing bought yet. </div>
+        <div class="emptyMessage" ng-if="boughtList.bought.length == 0"> Nothing bought yet. </div>
       </div>
     </div>
   </div>
